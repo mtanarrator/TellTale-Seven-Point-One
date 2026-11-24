@@ -1009,7 +1009,7 @@ public class EntryPoint {
         public static void RunSendDiagnostics(Vegas vegas, string reportPath)
         {
             var sb = new StringBuilder();
-            sb.AppendLine("TellTale 7-Point-One Diagnostic — Send Model");
+            sb.AppendLine("TellTale-Seven-Point-One Diagnostic — Send Model");
             sb.AppendLine("============================================");
 
             try
@@ -1340,7 +1340,7 @@ public class EntryPoint {
         public string ToText()
         {
             var sb = new StringBuilder();
-            sb.AppendLine("TellTale 7-Point-One Diagnostic");
+            sb.AppendLine("TellTale-Seven-Point-One Diagnostic");
             sb.AppendLine("================================");
             foreach (string observation in _observations)
             {

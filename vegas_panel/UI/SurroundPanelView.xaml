@@ -486,7 +486,7 @@
                 <StackPanel Grid.Column="0" Orientation="Horizontal"
                             VerticalAlignment="Center">
                     <TextBlock x:Name="PanelTitleText"
-                               Text="TellTale 7-Point-One"
+                               Text="TellTale-Seven-Point-One"
                                FontSize="16" FontWeight="SemiBold"
                                VerticalAlignment="Center"/>
                     <Border x:Name="BusStatusPill" Style="{StaticResource Pill}"

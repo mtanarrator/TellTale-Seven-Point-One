@@ -120,17 +120,20 @@ namespace VegasSurround71.Phase4BVerification
 
         private static void VerifyExtensionSettings()
         {
-            Check("Extension display name defaults to TellTale 7-Point-One",
-                ExtensionSettings.ResolveDisplayName(null, null, null) == "TellTale 7-Point-One");
-            Check("Extension display name constant is TellTale 7-Point-One",
-                ExtensionSettings.DefaultDisplayName == "TellTale 7-Point-One");
-            Check("Build metadata supplies TellTale 7-Point-One",
-                ExtensionSettings.BuildDisplayName == "TellTale 7-Point-One");
+            Check("Extension display name defaults to TellTale-Seven-Point-One",
+                ExtensionSettings.ResolveDisplayName(null, null, null) == "TellTale-Seven-Point-One");
+            Check("Extension display name constant is TellTale-Seven-Point-One",
+                ExtensionSettings.DefaultDisplayName == "TellTale-Seven-Point-One");
+            Check("Build metadata supplies TellTale-Seven-Point-One",
+                ExtensionSettings.BuildDisplayName == "TellTale-Seven-Point-One");
             Check("Build name used when no settings/env",
                 ExtensionSettings.ResolveDisplayName(null, null, "Build 7.1") == "Build 7.1");
             Check("Legacy TellTale 7.1 build name migrates",
                 ExtensionSettings.ResolveDisplayName(null, null, "TellTale 7.1") ==
-                "TellTale 7-Point-One");
+                "TellTale-Seven-Point-One");
+            Check("Legacy spaced build name migrates",
+                ExtensionSettings.ResolveDisplayName(null, null, "TellTale 7-Point-One") ==
+                "TellTale-Seven-Point-One");
             Check("Environment overrides build name",
                 ExtensionSettings.ResolveDisplayName(null, "Env 7.1", "Build 7.1") == "Env 7.1");
 
@@ -159,13 +162,18 @@ namespace VegasSurround71.Phase4BVerification
                 ExtensionSettings.SaveTo(path, "TellTale 7.1");
                 Check("Legacy settings name migrates",
                     ExtensionSettings.ResolveDisplayName(path, null, "Build 7.1") ==
-                    "TellTale 7-Point-One");
+                    "TellTale-Seven-Point-One");
+
+                ExtensionSettings.SaveTo(path, "TellTale 7-Point-One");
+                Check("Legacy spaced settings name migrates",
+                    ExtensionSettings.ResolveDisplayName(path, null, "Build 7.1") ==
+                    "TellTale-Seven-Point-One");
 
                 Check("Blank save writes default",
                     ExtensionSettings.SaveTo(path, "   "));
                 loaded = ExtensionSettings.LoadFrom(path);
                 Check("Blank save persists default",
-                    loaded != null && loaded.DisplayName == "TellTale 7-Point-One");
+                    loaded != null && loaded.DisplayName == "TellTale-Seven-Point-One");
 
                 string tricky = "A \"quoted\" \\ name";
                 ExtensionSettings.SaveTo(path, tricky);

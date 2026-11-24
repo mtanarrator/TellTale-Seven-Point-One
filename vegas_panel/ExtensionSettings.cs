@@ -13,12 +13,13 @@ namespace VegasSurround71
     ///   1. TELLTALE_71_DISPLAY_NAME environment variable
     ///   2. %LOCALAPPDATA%\TellTale7PointOne\settings.json
     ///   3. MSBuild ExtensionDisplayName (AssemblyMetadataAttribute)
-    ///   4. "TellTale 7-Point-One"
+    ///   4. "TellTale-Seven-Point-One"
     /// </summary>
     public sealed class ExtensionSettings
     {
-        public const string DefaultDisplayName = "TellTale 7-Point-One";
+        public const string DefaultDisplayName = "TellTale-Seven-Point-One";
         public const string LegacyDefaultDisplayName = "TellTale 7.1";
+        public const string LegacySpacedDisplayName = "TellTale 7-Point-One";
         public const string DisplayNameEnvironmentVariable = "TELLTALE_71_DISPLAY_NAME";
 
         private const string DisplayNameKey = "displayName";
@@ -170,12 +171,14 @@ namespace VegasSurround71
             return DefaultDisplayName;
         }
 
-        /// <summary>Migrates the previous shipped name to the current one.</summary>
+        /// <summary>Migrates previous shipped names to the current one.</summary>
         private static string NormalizeDisplayName(string value)
         {
             string trimmed = value == null ? string.Empty : value.Trim();
             if (string.Equals(trimmed, LegacyDefaultDisplayName,
-                StringComparison.OrdinalIgnoreCase))
+                    StringComparison.OrdinalIgnoreCase) ||
+                string.Equals(trimmed, LegacySpacedDisplayName,
+                    StringComparison.OrdinalIgnoreCase))
             {
                 return DefaultDisplayName;
             }

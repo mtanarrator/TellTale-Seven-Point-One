@@ -1,8 +1,8 @@
 # OpenGL Tutorial · HOA / 3D Spatial
 
-> **EXPERIMENTAL / BETA:** This tutorial is part of the experimental TellTale 7-Point-One project. The visualizer and audition are teaching tools; they are not a calibrated monitoring or mastering reference.
+> **EXPERIMENTAL / BETA:** This tutorial is part of the experimental TellTale-Seven-Point-One project. The visualizer and audition are teaching tools; they are not a calibrated monitoring or mastering reference.
 
-A self-contained WebGL 2 (OpenGL ES 3.0) explainer for the HOA / 3D Spatial workspace in **VegasSurround71**. It shows the actual math used by the Rust core and lets you move a source, change the encoder order, switch monitor modes, and hear a small audition signal.
+A self-contained WebGL 2 (OpenGL ES 3.0) explainer for the HOA / 3D Spatial workspace in **TellTale-Seven-Point-One**. It shows the actual math used by the Rust core and lets you move a source, change the encoder order, switch monitor modes, and hear a small audition signal.
 
 The tutorial is a teaching tool only. It never loads the extension, never edits a VEGAS project, and never routes audio through the `[7.1] FL..SR` buses.
 

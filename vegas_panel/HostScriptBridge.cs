@@ -699,7 +699,7 @@ public class EntryPoint {
                 }
 
                 File.WriteAllText(reportPath,
-                    "TellTale 7-Point-One Diagnostic" + Environment.NewLine +
+                    "TellTale-Seven-Point-One Diagnostic" + Environment.NewLine +
                     "Host script bridge failed:" + Environment.NewLine +
                     DescribeException(ex) + Environment.NewLine +
                     ex + Environment.NewLine +

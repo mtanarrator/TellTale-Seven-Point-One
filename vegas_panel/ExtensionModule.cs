@@ -131,7 +131,7 @@ namespace VegasSurround71
                     string.Format("{0}/8 canonical 7.1 busses are available.\r\n\r\n" +
                                   "Mono render mapping: FL=0, FR=1, FC=2, LFE=3, BL=4, BR=5, SL=6, SR=7.",
                         present),
-                    "TellTale 7-Point-One",
+                    "TellTale-Seven-Point-One",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Information);
             }
@@ -147,13 +147,13 @@ namespace VegasSurround71
             {
                 string reportPath = Path.Combine(
                     Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
-                    "TellTale7PointOne", "TellTale 7-Point-One Diagnostic.txt");
+                    "TellTale7PointOne", "TellTale-Seven-Point-One Diagnostic.txt");
                 ValidationOutcome outcome = HostScriptBridge.RunValidation(
                     _vegas, reportPath, false);
                 MessageBox.Show(
                     string.Format("{0} checks passed, {1} failed.\r\n\r\nReport: {2}",
                         outcome.PassedCount, outcome.FailedCount, reportPath),
-                    "TellTale 7-Point-One Diagnostic",
+                    "TellTale-Seven-Point-One Diagnostic",
                     MessageBoxButtons.OK,
                     outcome.Passed ? MessageBoxIcon.Information : MessageBoxIcon.Warning);
             }

@@ -1,6 +1,6 @@
 # Third-Party Notices
 
-TellTale 7-Point-One (VegasSurround71) is licensed under the Apache License 2.0.
+TellTale-Seven-Point-One (VegasSurround71) is licensed under the Apache License 2.0.
 That license applies to this repository's own source code. It does not relicense
 the third-party platforms, tools, or codecs listed below.
 

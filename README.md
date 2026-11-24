@@ -1,4 +1,4 @@
-# VegasSurround71
+# TellTale-Seven-Point-One
 
 **Experimental 7.1 surround, HOA / 3D spatial audio, and stem-export extension for MAGIX / Boris FX VEGAS Pro.**
 
@@ -8,7 +8,7 @@
 > [!WARNING]
 > **EXPERIMENTAL / BETA SOFTWARE.** This project is under active development. Its APIs, state files, file formats, UI, and exports may change without notice. It is not production-hardened and has not been validated for client-critical or broadcast delivery. Work on copies of your projects, keep backups, and verify every export before relying on it.
 
-**VegasSurround71** creates discrete 7.1 mixes, exports uncompressed Wave64 masters with optional FLAC, Opus, Vorbis, WavPack, or LPCM delivery through the user's own FFmpeg installation, and renders ACN/SN3D AmbiX masters plus binaural/stereo previews.
+**TellTale-Seven-Point-One** creates discrete 7.1 mixes, exports uncompressed Wave64 masters with optional FLAC, Opus, Vorbis, WavPack, or LPCM delivery through the user's own FFmpeg installation, and renders ACN/SN3D AmbiX masters plus binaural/stereo previews.
 
 ## Project status: Experimental
 
@@ -17,13 +17,23 @@
 - **Verify before delivery:** check 7.1 bussing, channel order, and AmbiX playback in your own VEGAS project and decoder/monitoring chain.
 - **Current focus:** real-world feedback on bus routing, MKV compatibility, and HOA preview/monitoring workflows.
 
+### Naming
+
+The public product, repository, release, menu, and panel name is **TellTale-Seven-Point-One**. These technical identifiers intentionally retain legacy names so VEGAS can load the extension and existing projects keep their state:
+
+- Managed panel: `TellTale7PointOne.dll`
+- Native core: `telltale_7point1_core.dll`
+- C# namespace / project: `VegasSurround71`
+- Per-user state: `%LOCALAPPDATA%\TellTale7PointOne\`
+- Build override: `TELLTALE_71_DISPLAY_NAME`
+
 ---
 
 ## 1. Executive Summary & Core Innovation
 
 VEGAS Pro natively caps its Surround Master Bus at **5.1** (FL, FR, FC, LFE, SL, SR). Modern desktop, web delivery, and archival workflows can use discrete **7.1 surround** (adding Left Surround / Right Surround alongside Back Left / Back Right), and immersive/spatialized beds require even more channels.
 
-**VegasSurround71** bypasses VEGAS Pro's 5.1 master limitation entirely by combining:
+**TellTale-Seven-Point-One** bypasses VEGAS Pro's 5.1 master limitation entirely by combining:
 1. **A Native C# Dockable Panel (`ScriptPortal.Vegas`)**: A high-performance WPF UI (`ElementHost` with modeless keyboard interop) featuring a 2D overhead soundstage canvas, draggable audio pucks, live 8-channel meters, and timeline keyframe automation.
 2. **An Automated 8-Bus Routing Topology**: Dynamic provisioning of 8 discrete VEGAS audio busses mapped to `[7.1] FL, FR, FC, LFE, BL, BR, SL, SR`, exporting lossless 8-channel discrete Wave64 (`.w64`) audio.
 3. **A High-Performance Native Rust Core (`telltale_7point1_core.dll`)**: A zero-overhead C-ABI DLL implementing 2D Vector Base Amplitude Panning (VBAP), 4th-order Linkwitz-Riley 120 Hz LFE low-pass filtering, SMPTE channel mask ordering, automated FFmpeg master muxing using open/royalty-free codecs, and an ACN/SN3D HOA render/preview engine.
@@ -31,7 +41,7 @@ VEGAS Pro natively caps its Surround Master Bus at **5.1** (FL, FR, FC, LFE, SL,
 
 ```mermaid
 flowchart TD
-    UI["TellTale 7-Point-One Dockable Panel (WPF / C#)"] -->|"P/Invoke FFI"| Core["Rust Native Core (telltale_7point1_core.dll)"]
+    UI["TellTale-Seven-Point-One Dockable Panel (WPF / C#)"] -->|"P/Invoke FFI"| Core["Rust Native Core (telltale_7point1_core.dll)"]
     Core -->|"VBAP Gains (FL..SR, LFE)"| BusMgr["BusMatrixManager (8 canonical busses)"]
     BusMgr -->|"Track Bus Sends"| VegasTL["VEGAS Pro Timeline Tracks"]
     VegasTL -->|"Pass 1: Video Master"| VidFile["Video Stream (MP4/ProRes)"]
@@ -96,7 +106,7 @@ The extension's 3-pass pipeline produces `.mkv` directly. VEGAS itself can also 
 ## 3. Architecture & Repository Layout
 
 ```text
-VegasSurround71/
+TellTale-Seven-Point-One/
 ├── README.md                   # Complete architectural guide & documentation
 ├── LICENSE                     # Apache License 2.0
 ├── NOTICE                      # Attribution notice
@@ -224,13 +234,13 @@ This project is governed by strict sequential phase execution:
 * **[x] PHASE 4: Dockable WPF Soundstage, Live Meters & One-Click 7.1 Render** — **IMPLEMENTED & VERIFIED (full render smoke pending media)**
   * **Phase 4A PASSED (documented envelope-undo limitation):** dockable host, native status, 8-bus provisioning, real bus-letter send mapping (`BusC..BusJ`), repeatability, mono render mapping, and automation writes verified in-host (108/111 checks; envelope automation undo is a VEGAS 2027 host limitation).
   * **Phase 4B:** WPF 2D soundstage with draggable puck, live 8-channel gain meters (`FL · Front L` … `SR · Side R`), 1-based track selector (`Track 1`, `Track 1 - <Name>`), LFE/Spread sliders, keyframe toggle, local panel undo/reset, and an **Export 7.1 Master** section.
-  * **Configurable extension name:** `ExtensionSettings` resolves the panel/menu name from `TELLTALE_71_DISPLAY_NAME`, `%LOCALAPPDATA%\TellTale7PointOne\settings.json`, the MSBuild `ExtensionDisplayName` metadata, then `TellTale 7-Point-One`. The managed and native DLLs are named `TellTale7PointOne.dll` and `telltale_7point1_core.dll`; the exported C ABI is unchanged.
+  * **Configurable extension name:** `ExtensionSettings` resolves the panel/menu name from `TELLTALE_71_DISPLAY_NAME`, `%LOCALAPPDATA%\TellTale7PointOne\settings.json`, the MSBuild `ExtensionDisplayName` metadata, then `TellTale-Seven-Point-One`. The managed and native DLLs are named `TellTale7PointOne.dll` and `telltale_7point1_core.dll`; the exported C ABI is unchanged.
   * **Loop-region export:** **Render Loop Region Only (In / Out)** sends the same `Transport.LoopRegionStart`/`LoopRegionLength` to both Pass 1 video and Pass 2 Wave64, so the stems align frame-accurately. Missing In/Out points disable export with `Set In/Out loop points on the VEGAS timeline first.`
   * **Studio UI:** dark NLE-styled header with bus-status pills, radar soundstage with concentric rings, dynamic spread halo, gain-driven speaker glow, custom dark controls, segmented green-to-amber meters, and a 28 px status footer with an expandable diagnostic drawer.
   * **Track actions:** **Apply to Track** commits the current state; **Reset Puck Position** returns the puck to its initial position without writing; **Reset Track Keyframes** clears 7.1 send automation on the selected track (confirmed warning); **Reset All** restores panel defaults and clears all 7.1 send automation (confirmed warning).
   * **Uninitialized-bus guard:** if the busses are missing, pan commits are blocked with `Click 'Setup 7.1 Busses' to route tracks first.` instead of surfacing a reflection wrapper exception.
   * **Project-transition safety:** `ProjectOpened`/`ProjectClosed` reset the panel, clear stale track/template/pending/undo state, and re-detect project identity before actions. Panel diagnostics are mirrored to `%LOCALAPPDATA%\TellTale7PointOne\panel.log`.
-  * **Diagnostic transcript:** the panel log is labeled **TellTale 7-Point-One Diagnostic**; the Tools diagnostic writes `%LOCALAPPDATA%\TellTale7PointOne\TellTale 7-Point-One Diagnostic.txt`.
+  * **Diagnostic transcript:** the panel log is labeled **TellTale-Seven-Point-One Diagnostic**; the Tools diagnostic writes `%LOCALAPPDATA%\TellTale7PointOne\TellTale-Seven-Point-One Diagnostic.txt`.
   * **3-pass render orchestrator:** project-matched video stem → mapped 8-channel Wave64 stem → native FFmpeg mux/encode; temp stems are always cleaned up and the final file is published atomically.
   * **Deployment:** the panel build stages `TellTale7PointOne.dll` + `telltale_7point1_core.dll` into `deploy/`.
   * **Send-level fix:** VEGAS 2027 bus-send envelopes (`BusX`) are linear **0..2** with neutral 1.0, not dB. The mapper now writes linear gains and the bridge logs post-write read-back values (`FL(Bus A)=0.8423/-1.5dB …`). The installed SDK has no `TrackSend`/`Send.Level`; the envelope is the supported send path.
@@ -329,7 +339,7 @@ To build against a different VEGAS installation:
 dotnet build .\vegas_panel\VegasSurround71.csproj -c Release /p:VegasInstallDir="C:\Program Files\VEGAS\Vegas Pro 22"
 ```
 
-The extension display name defaults to `TellTale 7-Point-One`. Override it at build time
+The extension display name defaults to `TellTale-Seven-Point-One`. Override it at build time
 with `/p:ExtensionDisplayName="Studio 7.1"`, or at runtime with the
 `TELLTALE_71_DISPLAY_NAME` environment variable. The name is persisted in
 `%LOCALAPPDATA%\TellTale7PointOne\settings.json`; runtime precedence is
@@ -360,7 +370,7 @@ render-plan/temp cleanup, and the staged deployment files.
 Full Phase 4B transcript: `artifacts/phase4b/phase4b-verification.txt`.
 Full Phase 4C live-pan evidence: `artifacts/phase4c/live-pan-verification.txt`.
 
-New checks include: `Extension display name defaults to TellTale 7-Point-One`,
+New checks include: `Extension display name defaults to TellTale-Seven-Point-One`,
 `Legacy TellTale 7.1 build name migrates`, `Legacy settings name migrates`,
 `Settings persist display name`, `Environment overrides settings`,
 `JSON escapes round-trip`, `Track list uses 1-based Track N labels`,

@@ -15,7 +15,7 @@
     <AutoGenerateBindingRedirects>false</AutoGenerateBindingRedirects>
     <VegasInstallDir Condition="'$(VegasInstallDir)' == ''">C:\Program Files\BorisFX\Vegas Pro 2027</VegasInstallDir>
     <VegasAssembly>$(VegasInstallDir)\ScriptPortal.Vegas.dll</VegasAssembly>
-    <ExtensionDisplayName Condition="'$(ExtensionDisplayName)' == ''">TellTale 7-Point-One</ExtensionDisplayName>
+    <ExtensionDisplayName Condition="'$(ExtensionDisplayName)' == ''">TellTale-Seven-Point-One</ExtensionDisplayName>
   </PropertyGroup>
 
   <ItemGroup>
@@ -72,7 +72,7 @@
     <MakeDir Directories="$(DeployDir)" />
     <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(DeployDir)" />
     <Copy SourceFiles="$(NativeCore)" DestinationFolder="$(DeployDir)" />
-    <Delete Files="$(DeployDir)\VegasSurround71.dll;$(DeployDir)\vegas_surround71_core.dll;$(DeployDir)\TellTale 7-Point-One.dll;$(DeployDir)\TellTale 7-Point-One Core.dll"
+    <Delete Files="$(DeployDir)\VegasSurround71.dll;$(DeployDir)\vegas_surround71_core.dll;$(DeployDir)\TellTale-Seven-Point-One.dll;$(DeployDir)\TellTale-Seven-Point-One Core.dll"
             ContinueOnError="true" />
     <Message Text="Staged TellTale7PointOne.dll + telltale_7point1_core.dll -> $(DeployDir)" Importance="high" />
   </Target>
