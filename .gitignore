@@ -1,0 +1,41 @@
+# Build output
+[Bb]in/
+[Oo]bj/
+rust_core/target/
+*.user
+*.suo
+.vs/
+.vscode/
+
+# Generated/staged binaries and packages
+deploy/*.dll
+deploy/*.zip
+*.zip
+dist/
+backups/
+
+# Duplicate/working copy of the tutorial entry point
+tutorials/opengl_hoa/Tutorial-Explaination.html
+
+# Local test evidence and large media.
+# Keep the tutorial screenshots referenced by the tutorial README.
+artifacts/*
+!artifacts/tutorial/
+!artifacts/tutorial/*.jpg
+
+# Internal agent/developer handoff notes (kept local, not published)
+AGENT_HANDOFF.md
+HANDOFF.md
+
+# Secrets and local configuration
+*.pfx
+*.key
+*.pem
+.env
+secrets.json
+appsettings.local.json
+
+# OS metadata
+Thumbs.db
+Desktop.ini
+.DS_Store

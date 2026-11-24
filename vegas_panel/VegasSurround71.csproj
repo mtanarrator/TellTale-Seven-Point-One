@@ -1,0 +1,80 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net48</TargetFramework>
+    <OutputType>Library</OutputType>
+    <PlatformTarget>x64</PlatformTarget>
+    <AssemblyName>TellTale7PointOne</AssemblyName>
+    <RootNamespace>VegasSurround71</RootNamespace>
+    <LangVersion>7.3</LangVersion>
+    <Nullable>disable</Nullable>
+    <UseWPF>true</UseWPF>
+    <Deterministic>true</Deterministic>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <GenerateDocumentationFile>false</GenerateDocumentationFile>
+    <AutoGenerateBindingRedirects>false</AutoGenerateBindingRedirects>
+    <VegasInstallDir Condition="'$(VegasInstallDir)' == ''">C:\Program Files\BorisFX\Vegas Pro 2027</VegasInstallDir>
+    <VegasAssembly>$(VegasInstallDir)\ScriptPortal.Vegas.dll</VegasAssembly>
+    <ExtensionDisplayName Condition="'$(ExtensionDisplayName)' == ''">TellTale 7-Point-One</ExtensionDisplayName>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <AssemblyMetadata Include="ExtensionDisplayName" Value="$(ExtensionDisplayName)" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- Supplied by VEGAS Pro at runtime; must never be copied into the extension output. -->
+    <Reference Include="ScriptPortal.Vegas">
+      <HintPath>$(VegasAssembly)</HintPath>
+      <Private>false</Private>
+    </Reference>
+
+    <!-- Phase 4 (dockable WPF panel) prerequisites. -->
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="WindowsBase" />
+    <Reference Include="WindowsFormsIntegration" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- .NET Framework 4.8 targeting pack (this build machine has no VS developer pack). -->
+    <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies.net48" Version="1.0.3" PrivateAssets="All" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- The ABI verification project lives under this directory; keep its
+         sources and generated intermediates out of the panel compilation. -->
+    <Compile Remove="AbiVerification\**\*.cs" />
+    <EmbeddedResource Remove="AbiVerification\**\*" />
+    <None Remove="AbiVerification\**\*" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- Native C-ABI core; copied beside the managed assembly for local testing. -->
+    <None Include="..\rust_core\target\release\telltale_7point1_core.dll"
+          Link="telltale_7point1_core.dll"
+          CopyToOutputDirectory="PreserveNewest"
+          Condition="Exists('..\rust_core\target\release\telltale_7point1_core.dll')" />
+  </ItemGroup>
+
+  <Target Name="ValidateVegasSdk" BeforeTargets="ResolveAssemblyReferences" Condition="!Exists('$(VegasAssembly)')">
+    <Error Text="ScriptPortal.Vegas.dll was not found at '$(VegasAssembly)'. Pass /p:VegasInstallDir=&lt;path&gt; to point at your VEGAS Pro installation." />
+  </Target>
+
+  <Target Name="StageDeployment" AfterTargets="Build">
+    <PropertyGroup>
+      <DeployDir>$(MSBuildProjectDirectory)\..\deploy</DeployDir>
+      <NativeCore>$(MSBuildProjectDirectory)\..\rust_core\target\release\telltale_7point1_core.dll</NativeCore>
+    </PropertyGroup>
+    <Error Text="telltale_7point1_core.dll was not found at '$(NativeCore)'. Run 'cargo build --release' in rust_core first."
+           Condition="!Exists('$(NativeCore)')" />
+    <MakeDir Directories="$(DeployDir)" />
+    <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(DeployDir)" />
+    <Copy SourceFiles="$(NativeCore)" DestinationFolder="$(DeployDir)" />
+    <Delete Files="$(DeployDir)\VegasSurround71.dll;$(DeployDir)\vegas_surround71_core.dll;$(DeployDir)\TellTale 7-Point-One.dll;$(DeployDir)\TellTale 7-Point-One Core.dll"
+            ContinueOnError="true" />
+    <Message Text="Staged TellTale7PointOne.dll + telltale_7point1_core.dll -> $(DeployDir)" Importance="high" />
+  </Target>
+
+</Project>

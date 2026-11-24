@@ -1,0 +1,32 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net48</TargetFramework>
+    <OutputType>Library</OutputType>
+    <PlatformTarget>x64</PlatformTarget>
+    <AssemblyName>VegasSurround71.HostProbe</AssemblyName>
+    <RootNamespace>VegasSurround71.HostProbe</RootNamespace>
+    <LangVersion>7.3</LangVersion>
+    <Nullable>disable</Nullable>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <VegasInstallDir Condition="'$(VegasInstallDir)' == ''">C:\Program Files\BorisFX\Vegas Pro 2027</VegasInstallDir>
+    <VegasAssembly>$(VegasInstallDir)\ScriptPortal.Vegas.dll</VegasAssembly>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\vegas_panel\VegasSurround71.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="ScriptPortal.Vegas">
+      <HintPath>$(VegasAssembly)</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="System.Windows.Forms" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies.net48" Version="1.0.3" PrivateAssets="All" />
+  </ItemGroup>
+
+</Project>

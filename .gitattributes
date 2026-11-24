@@ -1,0 +1,11 @@
+# Normalize text line endings while keeping binary assets intact.
+* text=auto
+
+*.dll binary
+*.wav binary
+*.w64 binary
+*.flac binary
+*.jpg binary
+*.jpeg binary
+*.png binary
+*.zip binary

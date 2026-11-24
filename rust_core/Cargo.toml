@@ -1,0 +1,17 @@
+[package]
+name = "vegas_surround71_core"
+version = "0.1.0"
+edition = "2021"
+authors = ["VEGAS Surround 7.1 Architecture Team"]
+description = "Native DSP and 7.1 VBAP spatial core for VEGAS Pro"
+
+[lib]
+name = "telltale_7point1_core"
+crate-type = ["cdylib", "rlib"]
+
+[dependencies]
+
+# The C-ABI exports rely on catch_unwind to contain panics before they reach
+# the VEGAS Pro host process; the unwind strategy must never be disabled.
+[profile.release]
+panic = "unwind"
