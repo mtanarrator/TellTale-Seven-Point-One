@@ -96,7 +96,7 @@ The extension's 3-pass pipeline produces `.mkv` directly. VEGAS itself can also 
 ### Not implemented (and why)
 
 - **IAMF / Eclipsa Audio:** IAMF is a royalty-free spatial container, but the installed FFmpeg has only a raw IAMF muxer and rejects 7.1 input. Supporting IAMF/7.1.4 objects would require a separate IAMF encoder/metadata pipeline and an audio-only export path.
-- **IAMF / Eclipsa:** remains planned for Phase D. The current HOA workspace exports AmbiX WAV/W64/FLAC and renders stereo/binaural previews; it does not produce IAMF objects.
+- **IAMF / Eclipsa:** remains planned for next phase. The current HOA workspace exports AmbiX WAV/W64/FLAC and renders stereo/binaural previews; it does not produce IAMF objects.
 - **Ambisonics playback support:** AmbiX files are written as plain ACN/SN3D multichannel PCM with no standard speaker mask. Consumer players need their own AmbiX decoder; the panel's preview is a purpose-built stereo/binaural monitor, not a room-calibrated renderer.
 - **WavPack hybrid mode:** WavPack is delivered as lossless only; hybrid mode requires a separate correction file, which the single-MKV pipeline cannot carry.
 - **ALAC:** FFmpeg's ALAC encoder supports `7.1(wide)` and 6.1, not standard `7.1`; using it would misroute channels, so it is intentionally not offered.
